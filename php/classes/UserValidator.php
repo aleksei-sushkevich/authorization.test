@@ -28,7 +28,7 @@ class UserValidator{
             return;
         }
 
-        if(strpos($value, 0x20)){
+        if(strpos($value, ' ') || $value[0] === ' '){
             $this->validate_errors->login_msg = 'The Login cannot contain a space';
             $this->exist_errors = true;
             return;
@@ -62,7 +62,7 @@ class UserValidator{
             return;
         }
 
-        if(strpos($value, 0x20)){
+        if(strpos($value, ' ') || $value[0] === ' '){
             $this->validate_errors->password_msg = 'The Password cannot contain a space';
             $this->exist_errors = true;
             return;
@@ -105,13 +105,41 @@ class UserValidator{
             $this->exist_errors = true;
             return ;
         }
+        if(substr_count($value, '@') > 1){
+            $this->validate_errors->email_msg = 'The Email can contain only one character "%"';
+            $this->exist_errors = true;
+            return ;
+        }
+        if(substr_count($value, '@') < 1){
+            $this->validate_errors->email_msg = 'The Email must contain the domain part';
+            $this->exist_errors = true;
+            return ;
+        }
+
+        if(strpos($value, ' ') || $value[0] === ' '){
+            $this->validate_errors->email_msg = 'The Email cannot contain a space';
+            $this->exist_errors = true;
+            return;
+        }
+
+        if(preg_match("/^([a-zA-Z0-9\.]+@)$/",$value)){
+            $this->validate_errors->email_msg = 'The Email must contain the domain part';
+            $this->exist_errors = true;
+            return ;
+        }
+
+        if(!preg_match("/^([a-zA-Z0-9\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/",$value)){
+            $this->validate_errors->email_msg = 'The domain part should be separated by a dot and its second part consists of 2 or 3 letters';
+            $this->exist_errors = true;
+            return ;
+        }
 
         if(Database::checkUserEmail($value)){
             $this->validate_errors->email_msg = 'User with such an email exists';
             $this->exist_errors = true;
             return ;
         }
-
+        
         $this->validate_errors->email_msg = '';
     }
 
@@ -134,7 +162,7 @@ class UserValidator{
             return;
         }
 
-        if(strpos($value, 0x20)){
+        if(strpos($value, ' ') || $value[0] === ' '){
             $this->validate_errors->name_msg = 'The Name cannot contain a space';
             $this->exist_errors = true;
             return;

@@ -18,6 +18,8 @@
         include_once('html/login.html');
     }else if($actual_path == "/success"){
         include_once('html/success.html');
+    }else if($actual_path == "/noscript"){
+        include_once('html/noscript.html');
     }else{
         header('Location: ./');
     }
