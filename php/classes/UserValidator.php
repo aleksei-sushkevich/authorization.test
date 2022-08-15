@@ -8,11 +8,11 @@ class UserValidator{
     public function validate($user, $password_confirm){
         $this->validate_errors = new stdClass();
         $this->exist_errors = false;
-        UserValidator::checkLogin($user->login);
-        UserValidator::checkPassword($user->password);
-        UserValidator::checkConfirmPassword($user->password, $password_confirm);
-        UserValidator::checkEmail($user->email);
-        UserValidator::checkName($user->name);
+        $this->checkLogin($user->login);
+        $this->checkPassword($user->password);
+        $this->checkConfirmPassword($user->password, $password_confirm);
+        $this->checkEmail($user->email);
+        $this->checkName($user->name);
     }
 
     private function checkLogin($value){

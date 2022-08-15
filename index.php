@@ -23,6 +23,4 @@
     }else{
         header('Location: ./');
     }
-
-
 ?>
